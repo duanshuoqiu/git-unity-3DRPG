@@ -2,15 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using System;
 
-[System.Serializable]
-public class EventVector3:UnityEvent<Vector3>{ }
+// [System.Serializable]
+// public class EventVector3:UnityEvent<Vector3>{ }
 public class MouseManager : MonoBehaviour
 {
     public static MouseManager Instance;
-    private RaycastHit hitInfo;
-    public EventVector3 OnMouseClicked;
+
+    public Texture2D point, doorway, attack, target, arrow;
+    RaycastHit hitInfo;
+    public event Action<Vector3> OnMouseClicked;
 
     private void Awake()
     {
@@ -36,6 +38,12 @@ public class MouseManager : MonoBehaviour
         if (Physics.Raycast(ray, out hitInfo))
         {
             //切换鼠标贴图
+            switch (hitInfo.collider.gameObject.tag)
+            {
+                case"Ground":
+                    Cursor.SetCursor(target,new Vector2(16,16),CursorMode.Auto);
+                    break;
+            }
         }
     }
 
