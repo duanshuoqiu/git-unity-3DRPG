@@ -5,7 +5,11 @@ using UnityEngine;
 public class CharacterStats : MonoBehaviour
 {
     public CharacterDate_SO characterDate;
+    public AttackData_SO attackData;
 
+    [HideInInspector]
+    public bool isCritical;
+    
     #region Read from Data_SO
     public int MaxHealth
     { get { if (characterDate!=null) { return characterDate.maxHealth; }else return 0; }
