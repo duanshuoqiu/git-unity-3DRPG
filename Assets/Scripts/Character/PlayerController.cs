@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     private GameObject attackTarget;
     private float lastAttackTime;
+    private bool isDead;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -22,12 +23,15 @@ public class PlayerController : MonoBehaviour
     {
         MouseManager.Instance.OnMouseClicked += MoveToTarget;
         MouseManager.Instance.OnEnemyClicked +=EventAttack;
-        characterStats.MaxHealth = 2;
+        //characterStats.MaxHealth = 100;
+        GameManager.Instance.RegisterPlayer(characterStats);
     }
 
    
     void Update()
     {
+        isDead = characterStats.CurrentHealth == 0;
+        
         SwitchAnimation();
 
         lastAttackTime -= Time.deltaTime;
@@ -36,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private void SwitchAnimation()
     {
         anim.SetFloat("Speed",agent.velocity.sqrMagnitude);
+        anim.SetBool("Death",isDead);
     }
     
     public void MoveToTarget(Vector3 target)
